@@ -75,9 +75,10 @@ in
 
     src = fetchFromGitHub {
       owner = "QIDITECH";
-      repo = "PrusaSlicer";
-      hash = "sha256-g2I2l6i/8p8werDs4mDI/lGeDQsma4WSB9vT6OB2LGg=";
-      rev = "version_${finalAttrs.version}";
+      repo = "QIDISlicer";
+      # hash = "sha256-g2I2l6i/8p8werDs4mDI/lGeDQsma4WSB9vT6OB2LGg=";
+      hash = "sha256-BgGZvLJgqgYUL+EbPneNfQM8k4LsQSdYIvy9AlV5kyM=";
+      rev = "V${finalAttrs.version}";
     };
 
     nativeBuildInputs = [
@@ -151,13 +152,13 @@ in
         substituteInPlace src/libslic3r/Format/STEP.cpp \
           --replace 'libpath /= "OCCTWrapper.so";' 'libpath = "OCCTWrapper.so";'
       fi
-      # https://github.com/prusa3d/PrusaSlicer/issues/9581
+            # https://github.com/prusa3d/PrusaSlicer/issues/9581
       if [ -f "cmake/modules/FindEXPAT.cmake" ]; then
         rm cmake/modules/FindEXPAT.cmake
       fi
 
       # Fix resources folder location on macOS
-      substituteInPlace src/PrusaSlicer.cpp \
+      substituteInPlace src/QIDISlicer.cpp \
         --replace "#ifdef __APPLE__" "#if 0"
     '';
 
@@ -168,14 +169,14 @@ in
     ];
 
     postInstall = ''
-      ln -s "$out/bin/prusa-slicer" "$out/bin/prusa-gcodeviewer"
+      # ln -s "$out/bin/prusa-slicer" "$out/bin/prusa-gcodeviewer"
 
       mkdir -p "$out/lib"
       mv -v $out/bin/*.* $out/lib/
 
       mkdir -p "$out/share/pixmaps/"
-      ln -s "$out/share/PrusaSlicer/icons/PrusaSlicer.png" "$out/share/pixmaps/PrusaSlicer.png"
-      ln -s "$out/share/PrusaSlicer/icons/PrusaSlicer-gcodeviewer_192px.png" "$out/share/pixmaps/PrusaSlicer-gcodeviewer.png"
+            # https://github.com/prusa3d/PrusaSlicer/issues/9581
+            # https://github.com/prusa3d/PrusaSlicer/issues/9581
     '';
 
     preFixup = ''
@@ -199,12 +200,12 @@ in
     meta = with lib;
       {
         description = "G-code generator for 3D printer";
-        homepage = "https://github.com/prusa3d/PrusaSlicer";
+        # https://github.com/prusa3d/PrusaSlicer/issues/9581
         license = licenses.agpl3Plus;
         maintainers = with maintainers; [moredread tweber tmarkus];
         platforms = platforms.unix;
       }
       // lib.optionalAttrs (stdenv.isDarwin) {
-        mainProgram = "PrusaSlicer";
+        # https://github.com/prusa3d/PrusaSlicer/issues/9581
       };
   })
