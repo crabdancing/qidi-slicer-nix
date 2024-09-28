@@ -22,13 +22,16 @@
         pkgs,
         system,
         ...
-      }: {
+      }: let
+        pkg = pkgs.callPackage ./pkg.nix {};
+      in {
         # Per-system attributes can be defined here. The self' and inputs'
         # module parameters provide easy access to attributes of the same
         # system.
 
         # Equivalent to  inputs'.nixpkgs.legacyPackages.hello;
-        packages.default = pkgs.hello;
+        packages.default = pkg;
+        packages.qidi-slicer = pkg;
       };
       flake = {
         # The usual flake attributes can be defined here, including system-
